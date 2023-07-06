@@ -18,12 +18,9 @@ import Logger from 'bunyan';
 import { Server as SocketServer } from 'socket.io';
 import { createClient } from 'redis';
 import { createAdapter } from '@socket.io/redis-adapter';
-import appRoutes from './routes';
-import { config } from './config';
-import {
-	CustomError,
-	IErrorResponse,
-} from './shared/globals/helpers/error-handlers';
+import appRoutes from '@root/routes';
+import { config } from '@root/config';
+import { CustomError, IErrorResponse } from '@globals/helpers/error-handlers';
 
 const log: Logger = config.createLogger('setupServer');
 
