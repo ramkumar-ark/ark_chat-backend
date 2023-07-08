@@ -14,6 +14,7 @@ class App {
 
 	private loadConfig(): void {
 		config.validateConfig();
+		config.cloudinaryConfig();
 	}
 }
 

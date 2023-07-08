@@ -48,7 +48,10 @@ export class AppServer {
 		app.use(
 			cookieSession({
 				name: 'sessionToken',
-				keys: [config.COOKIE_SESSION_KEY1!, config.COOKIE_SESSION_KEY2!],
+				keys: [
+					config.COOKIE_SESSION_KEY1!,
+					config.COOKIE_SESSION_KEY2!,
+				],
 				maxAge: 24 * 7 * 3600000,
 				secure: config.NODE_ENV != 'development', //false for development and true for production with more configs.
 			}),
@@ -69,9 +72,9 @@ export class AppServer {
 	}
 	private globalErrorHandler(app: Application): void {
 		app.all('*', (req: Request, res: Response) => {
-			res
-				.status(HTTP_STATUS.NOT_FOUND)
-				.json({ message: `${req.originalUrl} not found` });
+			res.status(HTTP_STATUS.NOT_FOUND).json({
+				message: `${req.originalUrl} not found`,
+			});
 		});
 		app.use(
 			(
@@ -81,7 +84,9 @@ export class AppServer {
 				next: NextFunction,
 			) => {
 				if (error instanceof CustomError) {
-					return res.status(error.statusCode).json(error.serializeErrors());
+					return res
+						.status(error.statusCode)
+						.json(error.serializeErrors());
 				}
 				next();
 			},
@@ -92,7 +97,9 @@ export class AppServer {
 		try {
 			const httpServer: Server = new Server(app);
 			this.startHttpServer(httpServer);
-			const socketIO: SocketServer = await this.createSocketIO(httpServer);
+			const socketIO: SocketServer = await this.createSocketIO(
+				httpServer,
+			);
 		} catch (error) {
 			log.error(error);
 		}
